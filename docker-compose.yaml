@@ -1,0 +1,10 @@
+version: "3"
+services:
+  python-debian:
+    image: ajslater/python-debian
+    build: 
+      context: .
+      args:
+        BASE_VERSION:
+        VERSION:
+    env_file: .env
