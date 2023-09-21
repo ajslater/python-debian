@@ -1,0 +1,47 @@
+executors:
+  latest-machine:
+    machine:
+      image: ubuntu-2004:current
+      resource_class: medium
+jobs:
+  build:
+    executor: latest-machine
+    environment:
+      BUILDX_NO_DEFAULT_LOAD: 1
+    steps:
+      - checkout
+      - run:
+          command: ./bin/docker/install-binfmt-platforms.sh
+          name: Install binfmt Platforms
+      - run:
+          command: ./bin/docker/build-multiarch.sh
+          name: Build
+  deploy:
+    executor: latest-machine
+    steps:
+      - checkout
+      - run:
+          command: docker login --username="$DOCKER_USER" --password="$DOCKER_PASS"
+          name: Login to Docker Hub
+      - run:
+          command: ./bin/docker/install-binfmt-platforms.sh
+          name: Install binfmt Platforms
+      - run:
+          command: ./bin/docker/build-multiarch.sh push
+          name: Build & Push
+version: 2.1
+workflows:
+  main:
+    jobs:
+      - build:
+          filters:
+            branches:
+              only:
+                - develop
+                - /.*-ci/
+      - deploy:
+          filters:
+            branches:
+              only:
+                - main
+  version: 2.1
