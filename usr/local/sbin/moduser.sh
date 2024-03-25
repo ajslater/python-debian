@@ -12,3 +12,8 @@ User uid:    $(id -u abc)
 User gid:    $(id -g abc)
 -------------------------------------
 "
+
+# Possible fix for synology
+if [ "$CHOWN_PYTHON_SITE_PACKAGES" ]; then
+  chown -R abc:abc /usr/local/lib/python*/
+fi
