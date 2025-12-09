@@ -3,8 +3,15 @@
 set -euo pipefail
 VERSION="${1:-}"
 if [ "$VERSION" = "" ]; then
-  source .env
-  echo "$VERSION"
+  uv version
+  if [ -d frontend ]; then
+    cd frontend
+    node -e "const {name, version} =  require('./package.json'); console.log(name, version);"
+  fi
 else
-  echo Edit .env by hand.
+  uv version "$VERSION"
+  if [ -d frontend ]; then
+    cd frontend
+    npm version --allow-same-version "$VERSION"
+  fi
 fi

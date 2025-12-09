@@ -7,6 +7,13 @@ set -euxo pipefail
 ################
 bin/sortignore.sh
 
+####################
+###### Python ######
+###################
+# uv run ruff check --fix .
+# uv run ruff format .
+# uv run djlint templates --profile=django --reformat
+
 ############################################
 ##### Javascript, JSON, Markdown, YAML #####
 ############################################
