@@ -1,6 +1,6 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Find all shell scripts without a first line comment.
-# Created due to working with @defunctzombie
+# Inspired by @defunctzombie
 set -uo pipefail
 
 # set options
@@ -25,7 +25,7 @@ else
 fi
 # get files
 fns=$(find "$@" -type f -name "*.sh")
-if [ "$ignorefile" ]; then
+if [ "${ignorefile:-}" != "" ]; then
   fns=$(echo "$fns" | "$GREP_CMD" -vf "$ignorefile")
 fi
 
