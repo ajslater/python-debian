@@ -5,7 +5,7 @@ LABEL version=python-${VERSION}
 
 # *** UID/GID Init and create default user ***
 RUN adduser --uid 911 --home /home/abc --shell /bin/sh --disabled-password abc \
-  && usermod -G users abc
+    && usermod -G users abc
 COPY usr/local/sbin/*.sh /usr/local/sbin/
 
 ENTRYPOINT ["/usr/local/sbin/entrypoint.sh"]
