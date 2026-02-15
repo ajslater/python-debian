@@ -1,13 +1,16 @@
 __pycache__/
 __pypackages__/
 __snapshots__
+.*cache
 .cache
 .coverage
 .coverage.*
+.coverage*
 .dmypy.json
 .docker-token
 .DS_Store
 .eggs/
+.env
 .env-*
 .eslintcache
 .hypothesis/
@@ -23,6 +26,7 @@ __snapshots__
 .Python
 .python-version
 .ropeproject
+.ruff_cache/
 .scrapy
 .spyderproject
 .spyproject
