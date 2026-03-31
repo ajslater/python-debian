@@ -3,6 +3,7 @@ __pypackages__/
 __snapshots__
 .*cache
 .cache
+.claude
 .coverage
 .coverage.*
 .coverage*
