@@ -2,11 +2,10 @@
 # If UID & GID specified, setup abc user and run as abc.
 set -eu
 
-if [ "${DEPRECATED:-}" != "" ]; then
+if [ "${DOCKER_IMAGE_DEPRECATED:-}" != "" ]; then
   echo "--------------------------------------------------------"
-  echo "⚠️  WARNING: This image version is DEPRECATED ⚠️"
-  echo "Please migrate to the new repository for future versions."
-  echo "$DEPRECATED"
+  echo "⚠️  WARNING: This image is DEPRECATED ⚠️"
+  echo "$DOCKER_IMAGE_DEPRECATED"
   echo "--------------------------------------------------------"
 fi
 
