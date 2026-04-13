@@ -45,6 +45,7 @@ jobs:
         run: |
           set -a
           source .env
+          echo "BASE_VERSION=$BASE_VERSION" >> "$GITHUB_ENV"
           echo "VERSION=$VERSION" >> "$GITHUB_ENV"
 
       - name: Log in to GHCR
@@ -62,6 +63,7 @@ jobs:
           platforms: linux/${{ matrix.arch }}
           push: true
           build-args: |
+            BASE_VERSION=${{ env.BASE_VERSION }}
             VERSION=${{ env.VERSION }}
           tags: ${{ env.IMAGE }}:${{ env.VERSION }}-${{ matrix.arch }}
           cache-from: type=gha,scope=build-${{ matrix.arch }}
@@ -96,10 +98,12 @@ jobs:
         run: |
           set -a
           source .env
+          echo "BASE_VERSION=$BASE_VERSION" >> "$GITHUB_ENV"
           echo "VERSION=$VERSION" >> "$GITHUB_ENV"
 
       - name: Create and push manifest
         run: |
+          BASE_VERSION=${{ env.BASE_VERSION }}
           VERSION=${{ env.VERSION }}
           TAG_ARGS=("-t" "${IMAGE}:${VERSION}")
 
