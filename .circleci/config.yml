@@ -34,6 +34,7 @@ workflows:
   main:
     jobs:
       - build:
+          when: false
           filters:
             branches:
               only:
