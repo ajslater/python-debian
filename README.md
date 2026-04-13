@@ -9,4 +9,4 @@ variables. If omitted, these variables the `CMD` runs as root.
 
 ## Docker Image
 
-[ajslater/python-debian](https://hub.docker.com/repository/docker/ajslater/python-debian)
+[ghcr.io/ajslater/python-debian](https://github.com/ajslater/python-debian/pkgs/container/python-debian)

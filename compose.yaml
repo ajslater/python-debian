@@ -1,7 +1,7 @@
 version: "3"
 services:
   python-debian:
-    image: ajslater/python-debian
+    image: ghcr.io/ajslater/python-debian
     build:
       context: .
       args:
