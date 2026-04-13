@@ -1,12 +1,12 @@
 __pycache__
 .*cache
 .circleci
-.github
 .claude
 .coverage*
 .DS_Store
 .env*
 .git
+.github
 .mypy_cache
 .picopt_timestamp
 .pytest_cache

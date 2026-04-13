@@ -11,7 +11,7 @@ env:
 
 jobs:
   build:
-    name: Build Image (${{ matrxi.arch }})
+    name: Build Image (${{ matrix.arch }})
     runs-on: ${{ matrix.runner }}
     if: |
       github.ref_name == 'main' && github.event_name == 'push' ||
