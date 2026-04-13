@@ -6,6 +6,7 @@ __pycache__
 .DS_Store
 .env*
 .git
+.github
 .mypy_cache
 .picopt_timestamp
 .pytest_cache
