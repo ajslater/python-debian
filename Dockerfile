@@ -1,5 +1,6 @@
 ARG BASE_VERSION
 FROM python:$BASE_VERSION
+ARG VERSION
 LABEL maintainer="AJ Slater <aj@slater.net>"
 LABEL version=python-${VERSION}
 
