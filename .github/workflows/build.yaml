@@ -44,7 +44,7 @@ jobs:
           source .env
           echo "BASE_VERSION=$BASE_VERSION" >> "$GITHUB_ENV"
           echo "VERSION=$VERSION" >> "$GITHUB_ENV"
-          echo "ARCH_TAGS=${{ env.IMAGE }}:${{ env.VERSION }}-${{ matrix.arch }} >> "$GITHUB_ENV"
+          echo "ARCH_TAGS=${IMAGE}:${VERSION}-${{ matrix.arch }}" >> "$GITHUB_ENV"
 
       - name: Log in to GHCR
         uses: docker/login-action@v4
@@ -56,7 +56,7 @@ jobs:
       - name: Check if image exists in GHCR
         id: check_image
         run: |
-          if docker manifest inspect ${{ env.ARCH_TAGS }} /dev/null 2>&1; then
+          if docker manifest inspect ${{ env.ARCH_TAGS }} > /dev/null 2>&1; then
             echo "image_exists=true" >> "$GITHUB_OUTPUT"
             echo "Image found!"
           else
@@ -64,7 +64,7 @@ jobs:
           fi
 
       - name: Build and push
-        if: steps.check_image.outputs.image_exists != 'true
+        if: steps.check_image.outputs.image_exists != 'true'
         uses: docker/build-push-action@v7
         with:
           context: .
