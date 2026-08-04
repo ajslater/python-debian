@@ -46,6 +46,9 @@ jobs:
           echo "VERSION=$VERSION" >> "$GITHUB_ENV"
           echo "ARCH_TAGS=${IMAGE}:${VERSION}-${{ matrix.arch }}" >> "$GITHUB_ENV"
 
+      - name: Setup Docker Buildx
+        uses: docker/setup-buildx-action@v4
+
       - name: Log in to GHCR
         uses: docker/login-action@v4
         with:
