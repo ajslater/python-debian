@@ -4,7 +4,6 @@ __pypackages__/
 __snapshots__
 .*cache
 .*cache/
-.circleci
 .claude
 .coverage*
 .dmypy.json
@@ -93,6 +92,7 @@ profile_default/
 sdist/
 share/python-wheels/
 target/
+tasks
 test-results
 tests/**/*.json
 tests/**/*.xml
