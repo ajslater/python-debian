@@ -12,3 +12,8 @@ include cfg/common.mk
 include cfg/help.mk
 
 .PHONY: all
+.PHONY: lint
+## Check the Dockerfile BASE_VERSION default against .env
+## @category Lint
+lint::
+	bin/lint-base-version.sh
