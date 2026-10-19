@@ -45,11 +45,9 @@ PKG_VERSION=0
 ```
 
 To release a new image, change `BASE_VERSION` or increment `PKG_VERSION` and
-open a pull request against `main`. The Dockerfile's `ARG BASE_VERSION` default
-must match `.env`, so a plain `docker build .` gets the same base image;
-`make lint` checks that. CI builds and smoke tests each architecture on the pull
-request and publishes the multi-arch manifest on merge. Pull requests against
-`develop` only lint.
+open a pull request against `main`. CI builds and smoke tests each architecture
+on the pull request and publishes the multi-arch manifest on merge. Pull
+requests against `develop` only lint.
 
 Locally, `docker compose build` builds the image and
 `bin/test-image.sh ghcr.io/ajslater/python-debian` runs the smoke test.
