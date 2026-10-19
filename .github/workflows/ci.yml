@@ -131,7 +131,8 @@ jobs:
   # ---------------------------------------------------------------------------
   deploy:
     name: Deploy
-    needs: build
+    # Lint and build run in parallel; a failure in either skips the publish.
+    needs: [lint, build]
     if: github.event_name == 'push'
     runs-on: ubuntu-latest
     permissions:
