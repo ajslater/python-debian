@@ -12,11 +12,46 @@ env:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+  # Never cancel a publish on main; only superseded PR runs.
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   # -----------------------------------------------------------------
-  # Build per-arch Docker images natively
+  # Lint on every pull request and on main
+  # -----------------------------------------------------------------
+  lint:
+    name: Lint
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup uv
+        uses: astral-sh/setup-uv@v8
+
+      - name: Setup bun
+        uses: oven-sh/setup-bun@v2
+
+      - name: Setup Homebrew
+        # Preinstalled on the runner but not on PATH.
+        uses: Homebrew/actions/setup-homebrew@master
+
+      - name: Install lint tools
+        # shellcheck is preinstalled on the runner; these are not. The bin/
+        # scripts skip a missing tool with a message instead of failing, so
+        # without this step the lint job would pass while checking nothing.
+        run: brew install hadolint dockerfmt shfmt shellharden
+
+      - name: Install
+        run: make install
+
+      - name: Lint
+        run: make lint
+
+  # -----------------------------------------------------------------
+  # Build per-arch Docker images natively (PRs against main, pushes to main)
   # -----------------------------------------------------------------
   build:
     name: Build Image (${{ matrix.arch }})
@@ -81,8 +116,12 @@ jobs:
             BASE_VERSION=${{ env.BASE_VERSION }}
             VERSION=${{ env.VERSION }}
           tags: ${{ env.ARCH_TAGS }}
-          cache-from: type=gha,scope=build-${{ matrix.arch }}
-          cache-to: type=gha,scope=build-${{ matrix.arch }},mode=max
+
+      - name: Smoke test
+        # The buildx builder pushed straight to the registry, so pull it back.
+        run: |
+          docker pull "$ARCH_TAGS"
+          bin/test-image.sh "$ARCH_TAGS"
 
   # ---------------------------------------------------------------------------
   # Create multi-arch manifest and publish
@@ -122,8 +161,10 @@ jobs:
 
           docker buildx imagetools create \
             --annotation "index:org.opencontainers.image.title=python-debian" \
-            --annotation "index:org.opencontainers.image.description=Python base image" \
+            --annotation "index:org.opencontainers.image.description=Python base image with a PUID/PGID remapped user" \
             --annotation "index:org.opencontainers.image.version=${VERSION}" \
+            --annotation "index:org.opencontainers.image.revision=${{ github.sha }}" \
+            --annotation "index:org.opencontainers.image.created=$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
             --annotation "index:org.opencontainers.image.authors=AJ Slater <aj@slater.net>" \
             --annotation "index:org.opencontainers.image.source=https://github.com/ajslater/python-debian" \
             --annotation "index:org.opencontainers.image.licenses=GPL-3.0-only" \

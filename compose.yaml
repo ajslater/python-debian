@@ -4,5 +4,6 @@ services:
     build:
       context: .
       args:
+        BASE_VERSION: null
         VERSION: null
     env_file: .env
