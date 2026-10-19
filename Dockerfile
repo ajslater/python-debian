@@ -1,3 +1,6 @@
+# check=skip=InvalidDefaultArgInFrom
+# BASE_VERSION has no default on purpose: this image tracks no one Python
+# version. CI and compose pass it from .env.
 ARG BASE_VERSION
 FROM python:$BASE_VERSION
 ARG BASE_VERSION
