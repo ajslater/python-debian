@@ -1,19 +1,9 @@
 services:
-  ci:
-    container_name: ${CI_CONTAINER}
-    entrypoint:
-      - sleep
-      - infinity
-    environment:
-      - PYTHONUNBUFFERED=1
-    image: ${CI_IMAGE}
-    volumes:
-      - ./test-results:/app/test-results
-      - ./dist:/app/dist
   python-debian:
     image: ghcr.io/ajslater/python-debian
     build:
       context: .
       args:
+        BASE_VERSION: null
         VERSION: null
     env_file: .env

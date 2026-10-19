@@ -1,5 +1,5 @@
 #!/bin/sh
-# If UID & GID specified, setup abc user and run as abc.
+# Run the CMD as abc remapped to PUID & PGID, or as root if neither is set.
 set -eu
 
 if [ "${DOCKER_IMAGE_DEPRECATED:-}" != "" ]; then
@@ -15,7 +15,9 @@ if [ "${PUID:-}${PGID:-}" != "" ]; then
   if [ -f "$LOCAL_USER_SCRIPT" ]; then
     "$LOCAL_USER_SCRIPT"
   fi
-  exec su abc -c "$@"
-else
-  exec "$@"
+  # setpriv only changes ids, so set what su used to set.
+  export HOME=/home/abc USER=abc LOGNAME=abc
+  # exec keeps the CMD as PID 1 and passes every argument through.
+  exec setpriv --reuid=abc --regid=abc --init-groups --inh-caps=-all "$@"
 fi
+exec "$@"
