@@ -46,7 +46,6 @@ MANIFEST
 TODO.md
 __pycache__/
 __pypackages__/
-*$py.class
 build
 celerybeat-schedule
 celerybeat.pid
