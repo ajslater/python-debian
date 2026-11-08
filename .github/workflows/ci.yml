@@ -34,9 +34,6 @@ jobs:
           # No Python project here: uv only runs mbake and bin/roman.py.
           enable-cache: false
 
-      - name: Setup bun
-        uses: oven-sh/setup-bun@v2
-
       - name: Install lint tools
         # shellcheck is preinstalled on the runner; these are not. The bin/
         # scripts skip a missing tool with a message instead of failing, so
@@ -44,11 +41,8 @@ jobs:
         # Homebrew is preinstalled on ubuntu-24.04 but not on PATH.
         run: |
           eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-          brew install hadolint dockerfmt shfmt shellharden
+          brew install actionlint hadolint dockerfmt shfmt shellharden
           echo "/home/linuxbrew/.linuxbrew/bin" >> "$GITHUB_PATH"
-
-      - name: Install
-        run: make install
 
       - name: Lint
         run: make lint
